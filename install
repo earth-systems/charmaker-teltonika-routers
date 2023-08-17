@@ -20,16 +20,16 @@ while true; do
 done
 echo "."
 # Prompt for the Hostname:
-echo "Enter the hostname number of the Teltonika router, only the last 3 digits, eg. 002"
-# Prompt for 3-digit number input
+echo "Enter the IP Address of the Teltonika router between 172.20.1.254 and 172.20.254.254:"
+# Prompt for IP address input within the specified range
 while true; do
-    read -p "Enter a 3-digit number: " XPP_HOSTNAME
+    read -p "Enter an IP address here (eg. 172.20.123.254): " NETWORK_ADDRESS
 
-    # Check if the input is a 3-digit number using a regular expression
-    if [[ "$XPP_HOSTNAME" =~ ^[0-9]{3}$ ]]; then
+    # Check if the input is a valid IP address and within the specified range
+    if [[ "$NETWORK_ADDRESS" =~ ^(172\.20\.(1[0-9][0-9]|2[0-4][0-9]|25[0-4])\.[0-9]{1,3})$ ]]; then
         break  # Break the loop if the input is valid
     else
-        echo "Invalid input. Please enter a 3-digit number."
+        echo "Invalid input. Please enter a valid IP address within the range 172.20.1.254 to 172.20.254.254."
     fi
 done
 
@@ -48,6 +48,13 @@ echo "."
 echo "."
 echo "."
 read -n 1 -s -r -p "Press any key to proceed with the installation or CTRL+C to exit..."
+
+# Qucik cleanup first.
+rm -f "/tmp/tailscale.tgz"
+rm -f "/tailscale.tgz"
+rm -f "/usr/bin/tailscale"
+rm -f "/usr/bin/tailscaled"
+rm -f "/etc/init.d/tailscale"
 
 # Define the GitHub repository URL for the init Tailscale startup script
 GITHUB_REPO_URL="https://raw.githubusercontent.com/earthsystems-charmaker/teltonikarouters/main/serviceinit"
@@ -73,27 +80,6 @@ for dir in /tmp/tailscale_*; do
     fi
 done
 
-echo "Checks to see if these old files exist and deletes them before proceeding"
-# List of file paths to check and potentially delete
-FILES_TO_DELETE=(
-    "/tmp/tailscale.tgz"
-    "/tailscale.tgz"
-    "/usr/bin/tailscale"
-    "/usr/bin/tailscaled"
-    "/etc/init.d/tailscale"
-)
-
-for file in "${FILES_TO_DELETE[@]}"; do
-    if [ -f "$file" ]; then
-        # Delete the file
-        rm "$file"
-        echo "File $file deleted."
-    else
-        echo "File $file does not exist."
-    fi
-done
-
-
 echo "Downloading the Tailscale package"
 curl "https://pkgs.tailscale.com/stable/tailscale_${TAILSCALE_VERSION}_arm.tgz" --output tailscale.tgz
 
@@ -101,7 +87,7 @@ echo "Extracting the contents of the downloaded package"
 tar x -zvC /tmp -f tailscale.tgz
 
 echo "Removing the downloaded tarball"
-rm tailscale.tgz
+rm -f tailscale.tgz
 
 echo "Copying the Tailscale binaries to /usr/bin"
 cd tmp
@@ -175,8 +161,9 @@ echo "."
 echo "."
 
 echo "Executing the Tailscale UP command and pre-authentication with the Auth key"
-TSSUBNET_MOD="172.20.${XPP_HOSTNAME}"
-tailscale up --advertise-routes="${TSSUBNET_MOD}.0/24" --accept-dns=false --advertise-tags="tag:char-routers"
+# Extract the first three octets from NETWORK_ADDRESS
+THREE_OCTETS=$(echo "$NETWORK_ADDRESS" | cut -d '.' -f 1-3)
+tailscale up --advertise-routes="${THREE_OCTETS}.0/24" --accept-dns=false --advertise-tags="tag:char-routers"
 echo "."
 echo "."
 echo "."
