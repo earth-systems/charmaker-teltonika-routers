@@ -37,7 +37,6 @@ while true; do
 done
 
 # Print the details back to the user
-XPP_HOSTNAME_MOD="XPP${XPP_HOSTNAME}"
 clear
 echo "."
 echo "."
@@ -46,7 +45,7 @@ echo "Now we are ready to install Tailscale and configure it for the Charmaker n
 echo "."
 echo "Check the details below before proceeding:"
 echo " - Tailscale Version to install: ${TAILSCALE_VERSION}"
-echo " - Teltonika router full hostname: ${XPP_HOSTNAME_MOD}"
+echo " - Teltonika router IP Address: ${NETWORK_ADDRESS}"
 echo "."
 echo "."
 echo "."
