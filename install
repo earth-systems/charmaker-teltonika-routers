@@ -97,16 +97,29 @@ opkg install libustream-openssl ca-bundle kmod-tun
 echo "Required packages have been installed, ignore errors above for the Luci and Vuci package, and kernel errors"
 
 echo "Appending lines to the existing /etc/config/firewall file to allow Tailscale to connect"
-{
-    echo "config zone"
-    echo "    option device 'tailscale+'"
-    echo "    option name 'tailscale'"
-    echo "    option src 'wan'"
-    echo "    option input 'ACCEPT'"
-    echo "    option forward 'REJECT'"
-    echo "    option output 'REJECT'"
-} >> /etc/config/firewall
 
+# First we define the block of code for the firewall config we need to set.
+CONFIG_BLOCK="
+config zone
+    option device 'tailscale+'
+    option name 'tailscale'
+    option src 'wan'
+    option input 'ACCEPT'
+    option forward 'REJECT'
+    option output 'REJECT'
+"
+
+# File path
+FILE_PATH="/etc/config/firewall"
+
+# Check if the configuration block already exists in the file
+if ! grep -Fq "$CONFIG_BLOCK" "$FILE_PATH"; then
+    # Append the configuration block to the file
+    echo "$CONFIG_BLOCK" >> "$FILE_PATH"
+    echo "Configuration block added to $FILE_PATH."
+else
+    echo "Configuration block already exists in $FILE_PATH."
+fi
 
 echo "Enabling and starting the Tailscale service"
 /etc/init.d/tailscale enable
