@@ -26,7 +26,7 @@ while true; do
     read -p "Enter an IP address (eg. 172.20.123.254): " NETWORK_ADDRESS
 
     # Extract the third octet using awk
-    THIRD_OCTET=$(echo "$NETWORK_ADDRESS" | awk -F '.' '{print $3}')
+    THIRD_OCTET=$(echo "$NETWORK_ADDRESS" | cut -d '.' -f 3)
 
     # Check if the input is a valid IP address and within the specified range
     if [ "$THIRD_OCTET" -ge 1 ] && [ "$THIRD_OCTET" -le 254 ] && [ "$NETWORK_ADDRESS" = "172.20.$THIRD_OCTET.$(echo "$NETWORK_ADDRESS" | cut -d '.' -f 4)" ]; then
@@ -107,7 +107,6 @@ opkg install libustream-openssl ca-bundle kmod-tun
 echo "Required packages have been installed, ignore errors above for the Luci and Vuci package, and kernel errors"
 
 echo "Appending lines to the existing /etc/config/firewall file to allow Tailscale to connect"
-
 # First we define the block of code for the firewall config we need to set.
 CONFIG_BLOCK="
 config zone
