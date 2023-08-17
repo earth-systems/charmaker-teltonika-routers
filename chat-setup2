@@ -1,0 +1,142 @@
+#!/bin/sh
+
+clear
+echo "."
+echo "."
+echo "."
+
+echo "To begin with, we need to pre-authenticate with Tailscale, so we need an auth key."
+echo "Go to"
+echo "https://login.tailscale.com/admin/settings/keys"
+echo "login with the admin account and generate a new Auth key."
+echo "Copy the key to your clipboard."
+read -p "Paste the Tailscale Auth key here: " TAILSCALE_AUTH_KEY
+echo "."
+# Prompt for Tailscale version to install or use default
+echo "Check the Tailscale version to install, this can be found at:"
+echo "https://pkgs.tailscale.com/stable/#static"
+echo "Under Static Binaries > ARM"
+while true; do
+    read -p "Enter the Tailscale version to install (the current stable version is: 1.40.1, enter this version if unsure):" TAILSCALE_VERSION
+    # Check if the Tailscale package exists using curl HEAD request
+    if curl --output /dev/null --silent --head --fail "https://pkgs.tailscale.com/stable/tailscale_${TAILSCALE_VERSION}_arm.tgz"; then
+        break  # Break the loop if the package exists
+    else
+        echo "Tailscale package version not found. Please enter a valid version."
+    fi
+done
+echo "."
+# Prompt for the Hostname:
+echo "Enter the hostname number of the Teltonika router, only the last 3 digits, eg. 002"
+# Prompt for 3-digit number input
+while true; do
+    read -p "Enter a 3-digit number: " XPP_HOSTNAME
+
+    # Check if the input is a 3-digit number using a regular expression
+    if [[ "$XPP_HOSTNAME" =~ ^[0-9]{3}$ ]]; then
+        break  # Break the loop if the input is valid
+    else
+        echo "Invalid input. Please enter a 3-digit number."
+    fi
+done
+
+# Print the details back to the user
+XPP_HOSTNAME_MOD="XPP${XPP_HOSTNAME}"
+clear
+echo "."
+echo "."
+echo "."
+echo "Now we are ready to install Tailscale and configure it for the Charmaker network"
+echo "."
+echo "Check the details below before proceeding:"
+echo " - Tailscale Auth Key: ${TAILSCALE_AUTH_KEY}"
+echo " - Tailscale Version to install: ${TAILSCALE_VERSION}"
+echo " - Teltonika router full hostname: ${XPP_HOSTNAME_MOD}"
+echo "."
+echo "."
+echo "."
+read -n 1 -s -r -p "Press any key to proceed with the installation or CTRL+C to exit..."
+
+# Define the GitHub repository URL for the init Tailscale startup script
+GITHUB_REPO_URL="https://raw.githubusercontent.com/adyanth/openwrt-tailscale-enabler/main/etc/init.d/tailscale"
+
+# Set the default dir to root and make tmp dir
+cd /
+mkdir tmp
+
+echo "Downloading the Tailscale package"
+curl "https://pkgs.tailscale.com/stable/tailscale_${TAILSCALE_VERSION}_arm.tgz" --output tailscale.tgz
+
+echo "Extracting the contents of the downloaded package"
+tar x -zvC /tmp -f tailscale.tgz
+
+echo "Removing the downloaded tarball"
+rm tailscale.tgz
+
+echo "Copying the Tailscale binaries to /usr/bin"
+cd tmp
+cd "tailscale_${TAILSCALE_VERSION}_arm"
+cp tailscale /usr/bin
+cp tailscaled /usr/bin
+
+echo "Setting permissions for the Tailscale binaries and the init script"
+chmod 775 /usr/bin/tailscale
+chmod 775 /usr/bin/tailscaled
+
+echo "Cleaning up and removing the extracted directory to save space"
+cd /
+cd tmp
+rm "tailscale_${TAILSCALE_VERSION}_arm" -R
+
+echo "Downloading the initilization script from github and saving it to /etc/init.d/tailscale"
+curl -L "${GITHUB_REPO_URL}" --output /etc/init.d/tailscale
+
+echo "Setting permissions for the init script"
+chmod 775 /etc/init.d/tailscale
+
+echo "Updating package lists and installing necessary packages"
+opkg update
+opkg install libustream-openssl ca-bundle kmod-tun
+echo "Required packages have been installed, ignore errors above for the Luci and Vuci package, and kernel errors"
+
+echo "Appending lines to the existing /etc/config/firewall file to allow Tailscale to connect"
+{
+    echo "config zone"
+    echo "    option device 'tailscale+'"
+    echo "    option name 'tailscale'"
+    echo "    option src 'wan'"
+    echo "    option input 'ACCEPT'"
+    echo "    option forward 'REJECT'"
+    echo "    option output 'REJECT'"
+} >> /etc/config/firewall
+
+
+echo "Enabling and starting the Tailscale service"
+/etc/init.d/tailscale enable
+/etc/init.d/tailscale start
+
+echo "Executing the Tailscale UP command and pre-authentication with the Auth key"
+TSSUBNET_MOD="172.20.${XPP_HOSTNAME}"
+tailscale up --advertise-routes="${TSSUBNET_MOD}.0/24" --accept-dns=false --advertise-tags="tag:char-routers" --authkey="${TAILSCALE_AUTH_KEY}"
+
+echo "."
+echo "."
+echo "."
+echo "Below shows the status of the Tailscale service and its connection details"
+tailscale netcheck
+echo "."
+echo "."
+echo "."
+echo "Below shows the version running of the Tailscale service"
+tailscale version
+echo "."
+echo "."
+echo "."
+echo "The setup has completed, review the output above for any issues."
+echo "A reboot is required to finalise the installation."
+echo "Then the Teltonika router will be ready for testing and production use - it will automatically connect to Tailscale upon reboot."
+echo "."
+echo "."
+echo "."
+read -n 1 -s -r -p "Press any key to reboot the Teltonika router..."
+reboot
