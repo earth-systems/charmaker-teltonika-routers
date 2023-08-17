@@ -12,19 +12,32 @@ echo "login with the admin account and generate a new Auth key."
 echo "Copy the key to your clipboard."
 read -p "Paste the Tailscale Auth key here: " TAILSCALE_AUTH_KEY
 echo "."
-# Prompt for the Hostname:
-echo "Enter the hostname number of the Teltonika router, only the 3 digits, eg. 002"
-read -p "Enter the 3 digits here: " XPP_HOSTNAME
-echo "."
 # Prompt for Tailscale version to install or use default
-read -p "Enter the Tailscale version to install (current stable version is: 1.40.1): " TAILSCALE_VERSION
+echo "Check the Tailscale version to install, this can be found at:"
+echo "https://pkgs.tailscale.com/stable/#static"
+echo "Under Static Binaries > ARM"
+read -p "Enter the Tailscale version to install (the current stable version is: 1.40.1, enter this version if unsure): " TAILSCALE_VERSION
+echo "."
+# Prompt for the Hostname:
+echo "Enter the hostname number of the Teltonika router, only the last 3 digits, eg. 002"
+read -p "Enter the 3 digits here: " XPP_HOSTNAME
 
+# Print the details back to the user
+XPP_HOSTNAME_MOD="XPP${XPP_HOSTNAME}"
 clear
 echo "."
 echo "."
 echo "."
 echo "Now we are ready to install Tailscale and configure it for the Charmaker network"
-read -n 1 -s -r -p "Press any key to proceed..."
+echo "."
+echo "Check the details below before proceeding:"
+echo " - Tailscale Auth Key: ${TAILSCALE_AUTH_KEY}"
+echo " - Tailscale Version to install: ${TAILSCALE_VERSION} ARM"
+echo " - Teltonika router full hostname: ${XPP_HOSTNAME_MOD}"
+echo "."
+echo "."
+echo "."
+read -n 1 -s -r -p "Press any key to proceed with the installation and configuration or CTRL+C to exit..."
 
 # Define the GitHub repository URL for the init Tailscale startup script
 GITHUB_REPO_URL="https://raw.githubusercontent.com/adyanth/openwrt-tailscale-enabler/main/etc/init.d/tailscale"
