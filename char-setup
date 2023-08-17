@@ -10,18 +10,6 @@ echo "Go to"
 echo "https://login.tailscale.com/admin/settings/keys"
 echo "login with the admin account and generate a new Auth key."
 echo "Copy the key to your clipboard."
-read -n 1 -s -r -p "Press any key to proceed once you have the Auth key..."
-
-clear
-echo "."
-echo "."
-echo "."
-echo "Now we need to collect a few details from you..."
-echo "."
-echo "."
-echo "."
-
-# Prompt for Tailscale auth key:
 read -p "Paste the Tailscale Auth key here: " TAILSCALE_AUTH_KEY
 echo "."
 # Prompt for the Hostname:
