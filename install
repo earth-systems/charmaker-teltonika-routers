@@ -6,7 +6,7 @@ echo "."
 echo "."
 
 # Prompt for Tailscale version to install or use default
-echo "Firstly, check the Tailscale version to install, this can be found at:"
+echo "Firstly, check the Tailscale version to install on this router, this can be found at:"
 echo "https://pkgs.tailscale.com/stable/#static   under Static Binaries > ARM"
 while true; do
     read -p "Enter the Tailscale version to install (current used is: 1.40.1, enter this version if unsure):" TAILSCALE_VERSION
@@ -18,35 +18,22 @@ while true; do
     fi
 done
 echo "."
-# Prompt for the Hostname:
-echo "Enter the IP Address of the Teltonika router between 172.20.1.254 and 172.20.254.254:"
-# Prompt for IP address input within the specified range
-while true; do
-    read -p "Enter an IP address (eg. 172.20.123.254): " NETWORK_ADDRESS
 
-    # Extract the third octet using awk
-    THIRD_OCTET=$(echo "$NETWORK_ADDRESS" | cut -d '.' -f 3)
-
-
-    # Check if the input is a valid IP address and within the specified range
-    if [ "$THIRD_OCTET" -ge 1 ] && [ "$THIRD_OCTET" -le 254 ] && [ "$NETWORK_ADDRESS" = "172.20.$THIRD_OCTET.$(echo "$NETWORK_ADDRESS" | cut -d '.' -f 4)" ]; then
-        break  # Break the loop if the input is valid
-    else
-        echo "Invalid input. Please enter a valid IP address within the range 172.20.1.254 to 172.20.254.254."
-    fi
-done
-
+# Sets a var for the local IP address of the router and pulls out the third octet for the Tailscale up command later on
+LOCAL_IPv4=$(ip -o -4 addr show scope global | awk '{split($4,a,"/"); print a[1]}' | grep "^172.20")
+THIRD_OCTET=$(echo "$LOCAL_IPv4" | cut -d '.' -f 3)
 
 # Print the details back to the user
 clear
 echo "."
 echo "."
 echo "."
-echo "Now we are ready to install Tailscale and configure it for the Charmaker network"
+echo "Now we are ready to install Tailscale and configure it for the Charmaker network."
 echo "."
 echo "Check the details below before proceeding:"
 echo " - Tailscale version to download install: ${TAILSCALE_VERSION}"
-echo " - Teltonika router IP Address: ${NETWORK_ADDRESS}"
+echo " - Tailscale URL download: https://pkgs.tailscale.com/stable/tailscale_${TAILSCALE_VERSION}_arm.tgz"
+echo " - Teltonika router IP Address: ${LOCAL_IPv4}"
 echo " - Tailscale subnet-router address: 172.20.${THIRD_OCTET}.0/24"
 echo "."
 echo "."
