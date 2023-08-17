@@ -71,18 +71,6 @@ if [ ! -d "tmp" ]; then
     echo "'tmp' folder created."
 fi
 
-echo "Removing old Tailscale binaries if they exist when downloaded"
-# Remove directories matching the pattern 'tailscale_*' under the /tmp directory
-shopt -s nullglob  # This ensures no error if no directories match the pattern
-for dir in /tmp/tailscale_*; do
-    if [ -d "$dir" ]; then
-        rm -rf "$dir"
-        echo "Directory $dir removed."
-    else
-        echo "Directory $dir does not exist."
-    fi
-done
-
 echo "Downloading the Tailscale package"
 curl "https://pkgs.tailscale.com/stable/tailscale_${TAILSCALE_VERSION}_arm.tgz" --output tailscale.tgz
 
