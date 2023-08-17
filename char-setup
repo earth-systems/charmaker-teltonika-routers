@@ -37,7 +37,7 @@ echo " - Teltonika router full hostname: ${XPP_HOSTNAME_MOD}"
 echo "."
 echo "."
 echo "."
-read -n 1 -s -r -p "Press any key to proceed with the installation and configuration or CTRL+C to exit..."
+read -n 1 -s -r -p "Press any key to proceed with the installation or CTRL+C to exit..."
 
 # Define the GitHub repository URL for the init Tailscale startup script
 GITHUB_REPO_URL="https://raw.githubusercontent.com/adyanth/openwrt-tailscale-enabler/main/etc/init.d/tailscale"
