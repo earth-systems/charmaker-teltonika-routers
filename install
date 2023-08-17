@@ -25,7 +25,8 @@ echo "."
 read -p "Paste the Tailscale Auth key here: " TAILSCALE_AUTH_KEY
 echo "."
 # Prompt for the Hostname:
-read -p "Enter the hostname number of the Teltonika router (eg. 005). Only enter the 3 digits, not the 'XPP' part.: " XPP_HOSTNAME
+echo "Enter the hostname number of the Teltonika router, only the 3 digits, eg. 002"
+read -p "Enter the 3 digits here: " XPP_HOSTNAME
 echo "."
 # Prompt for Tailscale version to install or use default
 read -p "Enter the Tailscale version to install (current stable version is: 1.40.1): " TAILSCALE_VERSION
