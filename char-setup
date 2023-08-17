@@ -32,7 +32,7 @@ echo "Now we are ready to install Tailscale and configure it for the Charmaker n
 echo "."
 echo "Check the details below before proceeding:"
 echo " - Tailscale Auth Key: ${TAILSCALE_AUTH_KEY}"
-echo " - Tailscale Version to install: ${TAILSCALE_VERSION} ARM"
+echo " - Tailscale Version to install: ${TAILSCALE_VERSION}"
 echo " - Teltonika router full hostname: ${XPP_HOSTNAME_MOD}"
 echo "."
 echo "."
@@ -79,7 +79,7 @@ chmod 775 /etc/init.d/tailscale
 echo "Updating package lists and installing necessary packages"
 opkg update
 opkg install libustream-openssl ca-bundle kmod-tun
-echo "Required packages have been installed, ignore errors above for the vuci package, and kernel errors"
+echo "Required packages have been installed, ignore errors above for the Luci and Vuci package, and kernel errors"
 
 echo "Appending lines to the existing /etc/config/firewall file to allow Tailscale to connect"
 {
