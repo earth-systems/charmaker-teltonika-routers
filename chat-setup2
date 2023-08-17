@@ -115,6 +115,10 @@ echo "Enabling and starting the Tailscale service"
 /etc/init.d/tailscale enable
 /etc/init.d/tailscale start
 
+echo "."
+echo "."
+echo "."
+
 echo "Executing the Tailscale UP command and pre-authentication with the Auth key"
 TSSUBNET_MOD="172.20.${XPP_HOSTNAME}"
 tailscale up --advertise-routes="${TSSUBNET_MOD}.0/24" --accept-dns=false --advertise-tags="tag:char-routers" --authkey="${TAILSCALE_AUTH_KEY}"
