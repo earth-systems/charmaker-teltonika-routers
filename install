@@ -6,7 +6,7 @@ echo "."
 echo "."
 
 echo "To begin with, we need to pre-authenticate with Tailscale, so we need an auth key."
-echo "Go to:   
+echo "Go to:"
 echo "https://login.tailscale.com/admin/settings/keys"
 echo "login with the admin account and generate a new Auth key."
 echo "Copy the key to your clipboard."
@@ -23,10 +23,10 @@ echo "."
 
 # Prompt for Tailscale auth key:
 read -p "Paste the Tailscale Auth key here: " TAILSCALE_AUTH_KEY
-
+echo "."
 # Prompt for the Hostname:
 read -p "Enter the hostname number of the Teltonika router (eg. 005). Only enter the 3 digits, not the 'XPP' part.: " XPP_HOSTNAME
-
+echo "."
 # Prompt for Tailscale version to install or use default
 read -p "Enter the Tailscale version to install (current stable version is: 1.40.1): " TAILSCALE_VERSION
 
