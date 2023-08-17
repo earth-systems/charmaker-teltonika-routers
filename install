@@ -7,10 +7,9 @@ echo "."
 
 # Prompt for Tailscale version to install or use default
 echo "Firstly, check the Tailscale version to install, this can be found at:"
-echo "https://pkgs.tailscale.com/stable/#static"
-echo "Under Static Binaries > ARM"
+echo "https://pkgs.tailscale.com/stable/#static   under Static Binaries > ARM"
 while true; do
-    read -p "Enter the Tailscale version to install (the current stable version is: 1.40.1, enter this version if unsure):" TAILSCALE_VERSION
+    read -p "Enter the Tailscale version to install (current used is: 1.40.1, enter this version if unsure):" TAILSCALE_VERSION
     # Check if the Tailscale package exists using curl HEAD request
     if curl --output /dev/null --silent --head --fail "https://pkgs.tailscale.com/stable/tailscale_${TAILSCALE_VERSION}_arm.tgz"; then
         break  # Break the loop if the package exists
@@ -54,7 +53,7 @@ echo "."
 echo "."
 read -n 1 -s -r -p "Press any key to proceed with the installation or CTRL+C to exit..."
 
-# Qucik cleanup first.
+# Quick cleanup first of old files.
 rm -f "/tmp/tailscale.tgz"
 rm -f "/tailscale.tgz"
 rm -f "/usr/bin/tailscale"
@@ -152,16 +151,15 @@ echo "."
 echo "."
 echo "."
 
-echo "Executing the Tailscale UP command and pre-authentication with the Auth key"
+echo "Executing the Tailscale UP command"
 tailscale up --advertise-routes="172.20.${THIRD_OCTET}.0/24" --accept-dns=false --advertise-tags="tag:char-routers"
 echo "."
 echo "."
 echo "."
 echo "The setup has completed, review the output above for any issues."
 echo "A reboot is required to finalise the installation."
-echo "Then the Teltonika router will be ready for testing and production use - it will automatically connect to Tailscale upon reboot."
 echo "."
 echo "."
 echo "."
-read -n 1 -s -r -p "Press any key to reboot the Teltonika router..."
+read -n 1 -s -r -p "Press any key to reboot the router..."
 reboot
