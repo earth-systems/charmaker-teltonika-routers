@@ -1,36 +1,14 @@
-#!/bin/bash
-clear
-echo "."
-echo "."
-echo "."
-
-echo "First, we need to make sure the Teltonika router has internet access before we can proceed."
-echo "."
-echo "."
-echo "."
-# Function to test for internet connectivity
-check_internet_connectivity() {
-    until ping -c 1 8.8.8.8 &> /dev/null; do
-        echo "No internet connectivity, please connect to the internet using the WAN port. Retrying in 5 seconds..."
-        sleep 5
-    done
-    echo "Great, internet connectivity is available."
-    read -n 1 -s -r -p "Press any key to proceed..."
-	
-}
-
-# Test for internet connectivity
-check_internet_connectivity
+#!/bin/sh
 
 clear
 echo "."
 echo "."
 echo "."
 
-echo "Now, to pre-authenticate with Tailscale, we need an auth key."
+echo "To begin with, we need to pre-authenticate with Tailscale, so we need an auth key."
 echo "Go to:   
 echo "https://login.tailscale.com/admin/settings/keys"
-echo "and generate a new Auth key."
+echo "login with the admin account and generate a new Auth key."
 echo "Copy the key to your clipboard."
 read -n 1 -s -r -p "Press any key to proceed..."
 
