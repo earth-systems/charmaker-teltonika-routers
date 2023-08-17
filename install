@@ -6,7 +6,7 @@ echo "."
 echo "."
 
 echo "To begin with, we need to pre-authenticate with Tailscale, so we need an auth key."
-echo "Go to:"
+echo "Go to"
 echo "https://login.tailscale.com/admin/settings/keys"
 echo "login with the admin account and generate a new Auth key."
 echo "Copy the key to your clipboard."
