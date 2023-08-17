@@ -62,7 +62,12 @@ GITHUB_REPO_URL="https://raw.githubusercontent.com/earthsystems-charmaker/telton
 
 # Set the default dir to root and make tmp dir
 cd /
-mkdir tmp
+# Check if 'tmp' folder exists
+if [ ! -d "tmp" ]; then
+    # Create the 'tmp' folder if it doesn't exist
+    mkdir tmp
+    echo "'tmp' folder created."
+fi
 
 echo "Downloading the Tailscale package"
 curl "https://pkgs.tailscale.com/stable/tailscale_${TAILSCALE_VERSION}_arm.tgz" --output tailscale.tgz
