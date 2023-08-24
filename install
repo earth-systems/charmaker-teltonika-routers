@@ -20,7 +20,7 @@ done
 echo "."
 
 # Sets a var for the local IP address of the router and pulls out the third octet for the Tailscale up command later on
-LOCAL_IPv4=$(ip -o -4 addr show scope global | awk '{split($4,a,"/"); print a[1]}' | grep "^172.20")
+LOCAL_IPv4=$(route -n | awk '$8 == "br-lan" && $1 ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/ {print $1}')
 THIRD_OCTET=$(echo "$LOCAL_IPv4" | cut -d '.' -f 3)
 
 # Print the details back to the user
