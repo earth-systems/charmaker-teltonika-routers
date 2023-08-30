@@ -12,3 +12,4 @@ rm -f "/etc/init.d/tailscale"
 rm -f "/char-setup.sh"
 rm -f "/tmp/char-setup.sh"
 rm -f "/tmp/tailscalefirewall.sh"
+rm -f /tmp/tailscale-* -R
