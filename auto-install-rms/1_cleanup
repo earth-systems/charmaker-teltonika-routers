@@ -1,5 +1,5 @@
 #!/bin/sh  
-echo "Cleanup all old tmp files first"
+echo "Cleanup all old tmp files first and existing Tailscale binaries"
 cd /
 rm -f "/tmp/tailscaleinstall.sh"
 rm -f "/tailscaleinstall.sh"
