@@ -1,0 +1,14 @@
+#!/bin/sh  
+echo "Cleanup all old tmp files first"
+cd /
+rm -f "/tmp/tailscaleinstall.sh"
+rm -f "/tailscaleinstall.sh"
+rm -f "/tmp/output.txt"
+rm -f "/tmp/tailscale.tgz"
+rm -f "/tailscale.tgz"
+rm -f "/usr/bin/tailscale"
+rm -f "/usr/bin/tailscaled"
+rm -f "/etc/init.d/tailscale"
+rm -f "/char-setup.sh"
+rm -f "/tmp/char-setup.sh"
+rm -f "/tmp/tailscalefirewall.sh"
