@@ -5,9 +5,6 @@ LOCAL_IPv4=$(route -n | awk '$8 == "br-lan" && $1 ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0
 THIRD_OCTET=$(echo "$LOCAL_IPv4" | cut -d '.' -f 3)
 tailscale up --advertise-routes="172.20.${THIRD_OCTET}.0/24" --accept-dns=false --advertise-tags="tag:char-routers"
 
-echo "Cleaning up Tailscale Auth tmp file"
-rm -f "/tmp/ts_temp_file"
-
 echo "Check Tailscale is UP"
 STATUS_IP="$(tailscale ip -4 | cut -d'.' -f1)"
 if [ "${STATUS_IP}" = "100" ]; 
