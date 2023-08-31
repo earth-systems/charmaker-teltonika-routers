@@ -18,7 +18,7 @@ unset TAILSCALE_AUTH_KEY_EXECUTE
 unset TS_TEMP_FILE
 
 echo "Check Tailscale is UP"
-STATUS_IP="$(tailscale ip -4 | awk -F'.' '(print $1)')"
+STATUS_IP="$(tailscale ip -4 | cut -d'.' -f1)"
 if [ "${STATUS_IP}" = "100" ]; 
 then
     echo "Tailscale has an 100.x.x.x. IP address, its authenticated and running, all ok"
