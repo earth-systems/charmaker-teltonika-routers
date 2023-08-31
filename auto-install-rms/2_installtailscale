@@ -1,14 +1,39 @@
 #!/bin/sh
-echo "Install Tailscale"
-cd /
-cd tmp
-tar x -zvC . -f tailscale.tgz
-rm -f tailscale.tgz
-cd /
-cd tmp
-cd tailscale*
-cp tailscale /usr/bin                                                                                     
-cp tailscaled /usr/bin
-chmod 775 /usr/bin/tailscale
-chmod 775 /usr/bin/tailscaled
-rm -rf /tmp/tailscale*/
+
+echo "Sets vars"
+FILE1="/tmp/tailscale.tgz"
+FILE2="/usr/bin/tailscale"
+FILE3="/usr/bin/tailscaled"
+
+echo "File check"
+if [[ -f ${FILE1} ]]
+then
+  echo "Installation file is ready to be extracted"
+  echo "Install Tailscale"
+  cd /
+  cd tmp
+  tar x -zvC . -f tailscale.tgz
+  rm -f tailscale.tgz
+  cd /
+  cd tmp
+  cd tailscale*
+  cp tailscale /usr/bin                                                                                     
+  cp tailscaled /usr/bin
+  chmod 775 /usr/bin/tailscale
+  chmod 775 /usr/bin/tailscaled
+  rm -rf /tmp/tailscale*/
+
+  if [[ -f ${FILE2} ]] && [[ -f ${FILE3} ]]
+    then
+      echo "Tailscale files exist, all ok"
+      exit 0
+    else
+      echo "Tailscale do not exist, exit"
+      exit 1
+    fi
+
+else
+  echo "Tailscale tgz package does not exist, cannot install, exit"
+  exit 1
+fi
+  
