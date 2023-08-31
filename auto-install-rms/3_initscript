@@ -1,4 +1,5 @@
 #!/bin/sh  
 echo "Configure the Tailscale init script and set permissions"
+GITHUB_x_serviceinit_EXECUTE={GITHUB_x_serviceinit}
 curl -L "${GITHUB_x_serviceinit_EXECUTE}" --output /etc/init.d/tailscale
 chmod 775 /etc/init.d/tailscale
