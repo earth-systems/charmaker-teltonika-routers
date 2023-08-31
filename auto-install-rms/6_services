@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "Starting Tailscale services"
+/etc/init.d/tailscale enable
+/etc/init.d/tailscale start
