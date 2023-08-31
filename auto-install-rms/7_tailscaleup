@@ -3,6 +3,7 @@
 echo "Getting Tailscale Auth var from file"
 TS_TEMP_FILE="/tmp/ts_temp_file"
 TAILSCALE_AUTH_KEY_EXECUTE=$(cat "$TS_TEMP_FILE")
+echo $TAILSCALE_AUTH_KEY_EXECUTE
 
 echo "Running Tailscale UP"
 LOCAL_IPv4=$(route -n | awk '$8 == "br-lan" && $1 ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/ {print $1}')
