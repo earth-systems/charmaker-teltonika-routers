@@ -2,3 +2,14 @@
 echo "Starting Tailscale services"
 /etc/init.d/tailscale enable
 /etc/init.d/tailscale start
+
+echo "Check service is running"
+STATUS="$(service tailscale status)"
+if [ "${STATUS}" = "running" ]; 
+	then
+		echo "Tailscale service is running, all ok"
+    exit 0
+else 
+    echo "Tailscale service is not running, exit 1"  
+    exit 1  
+fi
