@@ -33,6 +33,7 @@ if [[ -f ${FILE1} ]] && [[ -f ${FILE2} ]] && [[ -f ${FILE3} ]] && [[ -f ${FILE4}
 then
   echo "Files still exist, exit"
   exit 1
-fi
+else
   echo "Files do not exist, all ok"
   exit 0
+fi
