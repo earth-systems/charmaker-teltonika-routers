@@ -6,8 +6,8 @@ echo "Starting Tailscale services"
 echo "Check service is running"
 STATUS="$(service tailscale status)"
 if [ "${STATUS}" = "running" ]; 
-	then
-		echo "Tailscale service is running, all ok"
+then
+    echo "Tailscale service is running, all ok"
     exit 0
 else 
     echo "Tailscale service is not running, exit 1"  
