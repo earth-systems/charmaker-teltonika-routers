@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "Updating packages"
+opkg update
+opkg install libustream-openssl ca-bundle kmod-tun
