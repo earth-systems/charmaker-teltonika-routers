@@ -1,14 +1,7 @@
 #!/bin/sh  
 echo "Cleanup all old tmp files from the install "
 cd /
-rm -f "/tmp/tailscaleinstall.sh"
-rm -f "/tailscaleinstall.sh"
-rm -f "/tmp/output.txt"
 rm -f "/tmp/tailscale.tgz"
-rm -f "/tailscale.tgz"
-rm -f "/char-setup.sh"
-rm -f "/tmp/char-setup.sh"
-rm -f "/tmp/tailscalefirewall.sh"
 rm -f "/tmp/0_upload.sh"
 rm -f "/tmp/1_cleanup.sh"
 rm -f "/tmp/2_installtailscale.sh"
