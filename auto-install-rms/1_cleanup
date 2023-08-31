@@ -4,7 +4,6 @@ cd /
 rm -f "/tmp/tailscaleinstall.sh"
 rm -f "/tailscaleinstall.sh"
 rm -f "/tmp/output.txt"
-rm -f "/tmp/tailscale.tgz"
 rm -f "/tailscale.tgz"
 rm -f "/usr/bin/tailscale"
 rm -f "/usr/bin/tailscaled"
@@ -27,10 +26,9 @@ echo "Checks key files"
 FILE1="/usr/bin/tailscale"
 FILE2="/usr/bin/tailscaled"
 FILE3="/etc/init.d/tailscale"
-FILE4="/tailscale.tgz"
 
 echo "File check"
-if [[ -f ${FILE1} ]] && [[ -f ${FILE2} ]] && [[ -f ${FILE3} ]] && [[ -f ${FILE4} ]]
+if [[ -f ${FILE1} ]] && [[ -f ${FILE2} ]] && [[ -f ${FILE3} ]]
 then
   echo "Files still exist, exit"
   exit 1
