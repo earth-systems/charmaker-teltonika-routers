@@ -13,3 +13,12 @@ rm -f "/char-setup.sh"
 rm -f "/tmp/char-setup.sh"
 rm -f "/tmp/tailscalefirewall.sh"
 rm -f /tmp/tailscale-* -R
+rm -f "/tmp/0_cleanup.sh"
+rm -f "/tmp/1_upload.sh"
+rm -f "/tmp/2_installtailscale.sh"
+rm -f "/tmp/3_initscript.sh"
+rm -f "/tmp/4_updatepackages.sh"
+rm -f "/tmp/5_firewall.sh"
+rm -f "/tmp/6_services.sh"
+rm -f "/tmp/7_tailscaleup.sh"
+
