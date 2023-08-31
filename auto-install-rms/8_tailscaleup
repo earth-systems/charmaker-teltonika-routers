@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "Running Tailscale UP"
+TAILSCALE_AUTH_KEY_EXECUTE={TAILSCALE_AUTH_KEY}
+LOCAL_IPv4=$(route -n | awk '$8 == "br-lan" && $1 ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/ {print $1}')
+THIRD_OCTET=$(echo "$LOCAL_IPv4" | cut -d '.' -f 3)
+tailscale up --authkey ${TAILSCALE_AUTH_KEY_EXECUTE} --advertise-routes="172.20.${THIRD_OCTET}.0/24" --accept-dns=false --advertise-tags="tag:char-routers"
