@@ -1,4 +1,6 @@
 #!/bin/sh  
 echo "Configure the Tailscale init script and set permissions"
-curl -L "${GITHUB_x_serviceinit_EXECUTE}" --output /etc/init.d/tailscale
+curl -L "https://raw.githubusercontent.com/earthsystems-charmaker/teltonikarouters/main/auto-install-rms/x_serviceinit" --output /etc/init.d/tailscale
 chmod 775 /etc/init.d/tailscale
+
+
