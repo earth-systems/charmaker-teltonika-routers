@@ -11,3 +11,7 @@ tailscale up --authkey ${TAILSCALE_AUTH_KEY_EXECUTE} --advertise-routes="172.20.
 
 echo "Cleaning up Tailscale Auth tmp file"
 rm -f "/tmp/ts_temp.txt"
+
+echo "Removing variables"
+unset TAILSCALE_AUTH_KEY_EXECUTE
+unset TS_TEMP_FILE
