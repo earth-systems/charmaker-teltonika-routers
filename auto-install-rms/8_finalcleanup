@@ -17,5 +17,6 @@ rm -f "/tmp/4_updatepackages.sh"
 rm -f "/tmp/5_firewall.sh"
 rm -f "/tmp/6_services.sh"
 rm -f "/tmp/7_tailscaleup.sh"
+rm -f "/tmp/ts_temp.txt"
 rm -rf /tmp/tailscale*/
 rm -f "/tmp/8_finalcleanup.sh"
