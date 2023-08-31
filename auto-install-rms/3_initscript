@@ -3,4 +3,16 @@ echo "Configure the Tailscale init script and set permissions"
 curl -L "https://raw.githubusercontent.com/earthsystems-charmaker/teltonikarouters/main/auto-install-rms/x_serviceinit" --output /etc/init.d/tailscale
 chmod 775 /etc/init.d/tailscale
 
+echo "Checks key file"
+FILE1="/etc/init.d/tailscale"
+
+echo "File check"
+if [[ -f ${FILE1} ]]
+then
+  echo "Files exist, all ok"
+  exit 0
+else
+  echo "Files do not exist, all ok"
+  exit 1
+fi
 
