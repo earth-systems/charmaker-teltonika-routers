@@ -21,3 +21,18 @@ rm -f "/tmp/6_services.sh"
 rm -f "/tmp/7_tailscaleup.sh"
 rm -f "/tmp/8_finalcleanup.sh"
 rm -rf /tmp/tailscale*/
+
+echo "Checks key files"
+FILE1="/usr/bin/tailscale"
+FILE2="/usr/bin/tailscaled"
+FILE3="/etc/init.d/tailscale"
+FILE4="/tailscale.tgz"
+
+echo "File check"
+if [[ -f ${FILE1} ]] && [[ -f ${FILE2} ]] && [[ -f ${FILE3} ]] && [[ -f ${FILE4} ]]
+then
+  echo "Files still exist, exit"
+  exit 1
+fi
+  echo "Files do not exist, all ok"
+  exit 0
