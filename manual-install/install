@@ -109,26 +109,8 @@ config zone
 # File path
 FILE_PATH="/etc/config/firewall"
 
-# Check if the configuration block already exists in the file
-existing_block="false"
-while IFS= read -r line; do
-    if [[ "$line" == "config zone" ]]; then
-        if IFS= read -r next_line && [[ "$next_line" == "    option device 'tailscale+'" ]]; then
-            if IFS= read -r next_line && [[ "$next_line" == "    option name 'tailscale'" ]]; then
-                existing_block="true"
-                break
-            fi
-        fi
-    fi
-done < "$FILE_PATH"
-
-if [ "$existing_block" == "true" ]; then
-    echo "Configuration block already exists in $FILE_PATH."
-else
-    # Append the configuration block to the file
-    echo "$CONFIG_BLOCK" >> "$FILE_PATH"
-    echo "Configuration block added to $FILE_PATH."
-fi
+# Adds the firewall rule without checking.
+echo "$CONFIG_BLOCK" >> "$FILE_PATH"
 
 echo "Enabling and starting the Tailscale service"
 /etc/init.d/tailscale enable
