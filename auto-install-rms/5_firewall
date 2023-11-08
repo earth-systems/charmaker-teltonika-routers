@@ -1,6 +1,11 @@
 #!/bin/sh
-echo "Configuring firewall for Tailscale using the OpenWRT CLI"
+echo "Configuring firewall for Tailscale"
 
+echo "First we reset the firewall back to its defaults and restart the service"
+cp /rom/etc/config/firewall /etc/config/firewall
+/etc/init.d/firewall restart
+
+echo "Then we need to configure a firewall zone for Tailscale"
 uci add firewall zone
 uci set firewall.@zone[-1].device='tailscale+'
 uci set firewall.@zone[-1].name='tailscale'
@@ -9,4 +14,6 @@ uci set firewall.@zone[-1].input='ACCEPT'
 uci set firewall.@zone[-1].forward='REJECT'
 uci set firewall.@zone[-1].output='REJECT'
 uci commit firewall
+
+echo "All finished, now restart the firewall service"
 /etc/init.d/firewall restart
