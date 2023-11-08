@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "Configuring firewall for Tailscale using the OpenWRT CLI
+echo "Configuring firewall for Tailscale using the OpenWRT CLI"
 
 uci add firewall zone
 uci set firewall.@zone[-1].device='tailscale+'
