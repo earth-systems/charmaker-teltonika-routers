@@ -1,21 +1,12 @@
 #!/bin/sh
-echo "Configuring firewall for Tailscale
+echo "Configuring firewall for Tailscale using the OpenWRT CLI
 
-echo "Appending lines to the existing /etc/config/firewall file to allow Tailscale to connect"
-# First we define the block of code for the firewall config we need to set.                                                           
-CONFIG_BLOCK="                                                                                                                        
-config zone                                                                                                                           
-    option device 'tailscale+'                                                                                                        
-    option name 'tailscale'                                                                                       
-    option src 'wan'                                                                                              
-    option input 'ACCEPT'                                                                                         
-    option forward 'REJECT'                                                                                       
-    option output 'REJECT'                                                                                                            
-"                                                                                                                                     
-                                                                                                                  
-# File path                                                                                                       
-FILE_PATH="/etc/config/firewall"                                                                                  
-
-# Writes this to the Firewall config file without a check
-echo "$CONFIG_BLOCK" >> "$FILE_PATH"   
-                                     
+uci add firewall zone
+uci set firewall.@zone[-1].device='tailscale+'
+uci set firewall.@zone[-1].name='tailscale'
+uci set firewall.@zone[-1].src='wan'
+uci set firewall.@zone[-1].input='ACCEPT'
+uci set firewall.@zone[-1].forward='REJECT'
+uci set firewall.@zone[-1].output='REJECT'
+uci commit firewall
+service firewall restart
