@@ -9,4 +9,4 @@ uci set firewall.@zone[-1].input='ACCEPT'
 uci set firewall.@zone[-1].forward='REJECT'
 uci set firewall.@zone[-1].output='REJECT'
 uci commit firewall
-service firewall restart
+/etc/init.d/firewall restart
