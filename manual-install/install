@@ -48,7 +48,7 @@ rm -f "/usr/bin/tailscaled"
 rm -f "/etc/init.d/tailscale"
 
 # Define the GitHub repository URL for the init Tailscale startup script
-GITHUB_REPO_URL="https://raw.githubusercontent.com/earthsystems-charmaker/teltonikarouters/main/manual-install/serviceinit"
+GITHUB_REPO_URL="https://raw.githubusercontent.com/earth-systems/charmaker-teltonika-routers/main/manual-install/serviceinit"
 
 # Set the default dir to root and make tmp dir
 cd /
